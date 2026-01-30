@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tail or Head – The Ultimate Coin Flip Experience 🎲</title>
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-pink: #ff006e;
+            --neon-cyan: #00f5ff;
+            --neon-yellow: #ffbe0b;
+            --deep-purple: #1a0033;
+            --electric-blue: #3a0ca3;
+            --glow-pink: rgba(255, 0, 110, 0.5);
+            --glow-cyan: rgba(0, 245, 255, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--deep-purple) 0%, var(--electric-blue) 100%);
+            font-family: 'VT323', monospace;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background grid */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(0, 245, 255, 0.1) 0px, transparent 1px, transparent 40px, rgba(0, 245, 255, 0.1) 41px),
+                repeating-linear-gradient(90deg, rgba(0, 245, 255, 0.1) 0px, transparent 1px, transparent 40px, rgba(0, 245, 255, 0.1) 41px);
+            animation: gridMove 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(40px, 40px); }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.4;
+            animation: float 8s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-30px) translateX(20px); }
+            50% { transform: translateY(-60px) translateX(-20px); }
+            75% { transform: translateY(-30px) translateX(20px); }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            font-family: 'Monoton', cursive;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            color: var(--neon-pink);
+            text-shadow: 
+                0 0 10px var(--glow-pink),
+                0 0 20px var(--glow-pink),
+                0 0 40px var(--glow-pink),
+                0 0 80px var(--glow-pink);
+            margin-bottom: 20px;
+            animation: flicker 3s infinite alternate;
+            letter-spacing: 0.05em;
+        }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow: 
+                    0 0 10px var(--glow-pink),
+                    0 0 20px var(--glow-pink),
+                    0 0 40px var(--glow-pink),
+                    0 0 80px var(--glow-pink);
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+            }
+        }
+
+        .subtitle {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(0.7rem, 2vw, 1rem);
+            color: var(--neon-yellow);
+            margin-bottom: 50px;
+            text-shadow: 0 0 10px rgba(255, 190, 11, 0.8);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .coin-display {
+            margin: 60px auto;
+            perspective: 1000px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .coin {
+            width: 250px;
+            height: 250px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .coin.flipping {
+            animation: coinFlip 1s ease-in-out;
+        }
+
+        @keyframes coinFlip {
+            0% { transform: rotateY(0deg) rotateX(0deg); }
+            25% { transform: rotateY(180deg) rotateX(180deg) scale(1.2); }
+            50% { transform: rotateY(360deg) rotateX(360deg) scale(1); }
+            75% { transform: rotateY(540deg) rotateX(540deg) scale(1.2); }
+            100% { transform: rotateY(720deg) rotateX(720deg) scale(1); }
+        }
+
+        .coin-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 3rem;
+            font-weight: bold;
+            border: 8px solid var(--neon-yellow);
+            box-shadow: 
+                0 0 20px var(--neon-yellow),
+                0 0 40px var(--neon-yellow),
+                inset 0 0 20px rgba(255, 190, 11, 0.3);
+            backface-visibility: hidden;
+        }
+
+        .coin-head {
+            background: linear-gradient(135deg, var(--neon-cyan) 0%, #0077b6 100%);
+            color: white;
+            text-shadow: 
+                0 0 10px var(--glow-cyan),
+                0 0 20px var(--glow-cyan);
+        }
+
+        .coin-tail {
+            background: linear-gradient(135deg, var(--neon-pink) 0%, #c9184a 100%);
+            color: white;
+            transform: rotateY(180deg);
+            text-shadow: 
+                0 0 10px var(--glow-pink),
+                0 0 20px var(--glow-pink);
+        }
+
+        .result-text {
+            font-family: 'VT323', monospace;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: var(--neon-cyan);
+            margin: 30px 0;
+            min-height: 80px;
+            text-shadow: 0 0 10px var(--glow-cyan);
+            line-height: 1.4;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .flip-button {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            padding: 25px 50px;
+            background: linear-gradient(135deg, var(--neon-pink) 0%, #c9184a 100%);
+            color: white;
+            border: 4px solid var(--neon-yellow);
+            border-radius: 15px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 0 20px var(--glow-pink),
+                0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .flip-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .flip-button:hover {
+            transform: scale(1.05);
+            box-shadow: 
+                0 0 30px var(--glow-pink),
+                0 0 60px var(--glow-pink),
+                0 15px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .flip-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .flip-button:active {
+            transform: scale(0.95);
+        }
+
+        .flip-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .stats {
+            margin-top: 60px;
+            font-family: 'VT323', monospace;
+            font-size: 1.8rem;
+            color: var(--neon-yellow);
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px 30px;
+            border-radius: 10px;
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 15px var(--glow-cyan);
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: var(--neon-cyan);
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 2rem;
+            color: var(--neon-yellow);
+            text-shadow: 0 0 10px rgba(255, 190, 11, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            .coin {
+                width: 200px;
+                height: 200px;
+            }
+
+            .coin-face {
+                font-size: 2.5rem;
+            }
+
+            .flip-button {
+                padding: 20px 40px;
+            }
+
+            .stats {
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>COIN FLIP</h1>
+        <div class="subtitle">▸ THE ULTIMATE EXPERIENCE ◂</div>
+        
+        <div class="coin-display">
+            <div class="coin" id="coin">
+                <div class="coin-face coin-head">HEAD</div>
+                <div class="coin-face coin-tail">TAIL</div>
+            </div>
+        </div>
+
+        <div class="result-text" id="resultText">Click the button to flip!</div>
+
+        <button class="flip-button" id="flipButton" onclick="flipCoin()">
+            <span>🎲 FLIP IT 🎲</span>
+        </button>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-label">HEADS</div>
+                <div class="stat-value" id="headsCount">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">TAILS</div>
+                <div class="stat-value" id="tailsCount">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">TOTAL</div>
+                <div class="stat-value" id="totalCount">0</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating particles
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.width = Math.random() * 4 + 2 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = Math.random() * 5 + 5 + 's';
+            document.body.appendChild(particle);
+        }
+
+        let headsCount = 0;
+        let tailsCount = 0;
+        let totalCount = 0;
+
+        const headComments = [
+            "HEADS! You're ahead of the game! 🎯",
+            "HEAD HONCHO! Someone's feeling lucky! 🍀",
+            "HEADS UP! You called it! 🎊",
+            "CAPTAIN HEAD reporting for duty! ⚓",
+            "AHEAD of the curve! Nice flip! 🌟",
+            "HEADS! The universe has spoken! ✨",
+            "HEAD TURNER! What a flip! 💫",
+            "HEADS! You must be psychic! 🔮",
+            "HEAD OVER HEELS with this result! 💝",
+            "HEADS! Fortune favors the bold! 🏆",
+            "HEAD CASE! In the best way! 😎",
+            "HEADS! The coin gods smile upon you! 👑",
+            "HEAD SHOT! Perfect landing! 🎯",
+            "HEADS! You're on fire! 🔥",
+            "HEAD IN THE CLOUDS! And it paid off! ☁️"
+        ];
+
+        const tailComments = [
+            "TAILS! The plot thickens! 🎭",
+            "TAILS! Living life on the edge! 🌊",
+            "TAIL SPIN! What a ride! 🎢",
+            "TAILS! The underdog wins! 🐕",
+            "HAPPY TAILS to you! 🎉",
+            "TAILS! The coin has spoken! 🗣️",
+            "TAIL END of an epic flip! ⚡",
+            "TAILS! Destiny chose you! 🌠",
+            "TAILS! Against all odds! 🎲",
+            "TAILS! The rebel choice! 🎸",
+            "TAIL-OR MADE for success! ✂️",
+            "TAILS! Chaos reigns supreme! 🌪️",
+            "TAILS! The dark horse emerges! 🏇",
+            "TAILS! Breaking the mold! 🔨",
+            "TAILS! Fortune favors the brave! 🦁"
+        ];
+
+        function getRandomComment(comments) {
+            return comments[Math.floor(Math.random() * comments.length)];
+        }
+
+        function flipCoin() {
+            const coin = document.getElementById('coin');
+            const resultText = document.getElementById('resultText');
+            const flipButton = document.getElementById('flipButton');
+
+            // Disable button during flip
+            flipButton.disabled = true;
+            resultText.textContent = "Flipping...";
+
+            // Add flipping animation
+            coin.classList.add('flipping');
+
+            // Random result after animation
+            setTimeout(() => {
+                const isHeads = Math.random() < 0.5;
+                totalCount++;
+
+                if (isHeads) {
+                    headsCount++;
+                    coin.style.transform = 'rotateY(0deg)';
+                    resultText.textContent = getRandomComment(headComments);
+                    resultText.style.color = 'var(--neon-cyan)';
+                } else {
+                    tailsCount++;
+                    coin.style.transform = 'rotateY(180deg)';
+                    resultText.textContent = getRandomComment(tailComments);
+                    resultText.style.color = 'var(--neon-pink)';
+                }
+
+                // Update stats
+                document.getElementById('headsCount').textContent = headsCount;
+                document.getElementById('tailsCount').textContent = tailsCount;
+                document.getElementById('totalCount').textContent = totalCount;
+
+                // Remove animation class and re-enable button
+                coin.classList.remove('flipping');
+                flipButton.disabled = false;
+            }, 1000);
+        }
+
+        // Add keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && !document.getElementById('flipButton').disabled) {
+                e.preventDefault();
+                flipCoin();
+            }
+        });
+    </script>
+</body>
+</html>

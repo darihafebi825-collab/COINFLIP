@@ -1,0 +1,265 @@
+/* =====================
+   GLOBAL RESET
+===================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  min-height: 100vh;
+  color: #fff;
+}
+
+/* =====================
+   COMMON LAYOUT
+===================== */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* =====================
+   AUTH / LOGIN
+===================== */
+.auth-box {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 30px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.auth-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.auth-box input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+.auth-box button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #00d4ff;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.auth-box button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* =====================
+   HEADER / NAV
+===================== */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+header h1 {
+  font-size: 1.6rem;
+}
+
+.logout-btn {
+  background: #ff4d4d;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* =====================
+   DASHBOARD
+===================== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.grid-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 18px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.grid-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+.grid-card span {
+  font-size: 2rem;
+}
+
+.grid-card h3 {
+  margin-top: 10px;
+}
+
+/* =====================
+   CARDS (DECISIONS, MEMORIES, ETC.)
+===================== */
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 18px;
+  border-radius: 16px;
+  margin-bottom: 18px;
+  animation: fadeIn 0.4s ease;
+}
+
+.card h3 {
+  margin-bottom: 10px;
+}
+
+.card p {
+  opacity: 0.9;
+}
+
+/* =====================
+   BUTTONS
+===================== */
+.btn {
+  background: #00d4ff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn.secondary {
+  background: #ffcc00;
+  color: #000;
+}
+
+.btn.danger {
+  background: #ff4d4d;
+  color: #fff;
+}
+
+/* =====================
+   VOTING / OPTIONS
+===================== */
+.option {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.option span {
+  font-size: 0.9rem;
+}
+
+/* =====================
+   COMMENTS
+===================== */
+.comment-box {
+  margin-top: 10px;
+}
+
+.comment-box input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  margin-top: 6px;
+}
+
+/* =====================
+   TIMELINE (MEMORIES)
+===================== */
+.timeline {
+  border-left: 3px solid rgba(255, 255, 255, 0.3);
+  padding-left: 20px;
+}
+
+.timeline .card {
+  position: relative;
+}
+
+.timeline .card::before {
+  content: "";
+  position: absolute;
+  left: -29px;
+  top: 20px;
+  width: 12px;
+  height: 12px;
+  background: #00d4ff;
+  border-radius: 50%;
+}
+
+/* =====================
+   AWARDS
+===================== */
+.award {
+  text-align: center;
+}
+
+.award h2 {
+  margin-bottom: 10px;
+}
+
+.winner {
+  font-size: 1.3rem;
+  color: #ffcc00;
+  margin-top: 10px;
+}
+
+/* =====================
+   ANIMATIONS
+===================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =====================
+   RESPONSIVE
+===================== */
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 1.3rem;
+  }
+}

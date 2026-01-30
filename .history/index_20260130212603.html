@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Coin Flip - 1 Rupee</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #1a1a1a;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            text-shadow: none;
+        }
+
+        .coin-container {
+            perspective: 1000px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .coin {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.1s;
+        }
+
+        .coin.flipping {
+            animation: coinFlip 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes coinFlip {
+            0% {
+                transform: translateY(0) rotateY(0deg) rotateX(0deg);
+            }
+            25% {
+                transform: translateY(-100px) rotateY(900deg) rotateX(450deg);
+            }
+            50% {
+                transform: translateY(-80px) rotateY(1800deg) rotateX(900deg);
+            }
+            75% {
+                transform: translateY(-40px) rotateY(2700deg) rotateX(1350deg);
+            }
+            100% {
+                transform: translateY(0) rotateY(3600deg) rotateX(1800deg);
+            }
+        }
+
+        .coin-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 5px 25px rgba(0,0,0,0.3),
+                inset 0 2px 5px rgba(255,255,255,0.5),
+                inset 0 -2px 5px rgba(0,0,0,0.2);
+            border: 6px solid #a8a8a8;
+        }
+
+        /* Heads side - Ashoka Lion Capital */
+        .heads {
+            background: radial-gradient(circle at 35% 35%, #e8e8e8, #c0c0c0, #989898);
+            transform: rotateY(0deg) translateZ(2px);
+        }
+
+        .heads-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #2c2c2c;
+            text-shadow: 1px 1px 1px rgba(255,255,255,0.3);
+        }
+
+        .ashoka-pillar {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.4));
+        }
+
+        .india-text {
+            font-weight: bold;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        .hindi-text {
+            font-size: 1.5rem;
+            margin-top: 5px;
+        }
+
+        /* Tails side - One Rupee */
+        .tails {
+            background: radial-gradient(circle at 35% 35%, #e8e8e8, #c0c0c0, #989898);
+            transform: rotateY(180deg) translateZ(2px);
+        }
+
+        .tails-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #2c2c2c;
+            text-shadow: 1px 1px 1px rgba(255,255,255,0.3);
+        }
+
+        .rupee-symbol {
+            font-size: 5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.4));
+        }
+
+        .denomination {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .coin-edge {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(90deg, 
+                #7a7a7a 0%, 
+                #b8b8b8 25%, 
+                #d8d8d8 50%, 
+                #b8b8b8 75%, 
+                #7a7a7a 100%);
+            transform: translateZ(-2px);
+        }
+
+        .result-box {
+            background: rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .result-text {
+            font-size: 1.8rem;
+            color: #1a1a1a;
+            font-weight: bold;
+            text-shadow: none;
+        }
+
+        .flip-button {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 20px 60px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .flip-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .flip-button:active {
+            transform: translateY(-1px);
+        }
+
+        .flip-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .coin-shadow {
+            position: absolute;
+            bottom: -20px;
+            width: 200px;
+            height: 20px;
+            background: radial-gradient(ellipse, rgba(0,0,0,0.4), transparent);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .coin:not(.flipping) ~ .coin-shadow {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .coin {
+                width: 150px;
+                height: 150px;
+            }
+
+            .ashoka-pillar {
+                font-size: 3rem;
+            }
+
+            .rupee-symbol {
+                font-size: 4rem;
+            }
+
+            .flip-button {
+                padding: 15px 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🪙 Indian Coin Flip 🪙</h1>
+        <div class="subtitle">₹1 Rupee Coin</div>
+
+        <div class="coin-container">
+            <div class="coin" id="coin">
+                <div class="coin-face heads">
+                    <div class="heads-content">
+                        <div class="ashoka-pillar">🦁</div>
+                        <div class="india-text">INDIA</div>
+                        <div class="hindi-text">भारत</div>
+                    </div>
+                </div>
+                <div class="coin-face tails">
+                    <div class="tails-content">
+                        <div class="rupee-symbol">₹</div>
+                        <div class="denomination">1</div>
+                    </div>
+                </div>
+                <div class="coin-edge"></div>
+            </div>
+            <div class="coin-shadow"></div>
+        </div>
+
+        <div class="result-box">
+            <div class="result-text" id="resultText">Click the button to flip the coin!</div>
+        </div>
+
+        <button class="flip-button" id="flipButton" onclick="flipCoin()">
+            Flip Coin
+        </button>
+    </div>
+
+    <script>
+        let headsCount = 0;
+        let tailsCount = 0;
+        let totalCount = 0;
+        let isFlipping = false;
+
+        const headsMessages = [
+            "🦁 HEADS! The Lion roars with victory!",
+            "🦁 HEADS! Ashoka's pride shines through!",
+            "🦁 HEADS! The symbol of India prevails!",
+            "🦁 HEADS! Majestic as the national emblem!",
+            "🦁 HEADS! The lion capital stands tall!",
+            "🦁 HEADS! India's strength is revealed!",
+            "🦁 HEADS! Noble and mighty!",
+            "🦁 HEADS! The guardian faces up!",
+            "🦁 HEADS! Power and grace combined!",
+            "🦁 HEADS! The lion has spoken!"
+        ];
+
+        const tailsMessages = [
+            "₹ TAILS! One Rupee of fortune!",
+            "₹ TAILS! Money side up!",
+            "₹ TAILS! The value is revealed!",
+            "₹ TAILS! Currency of destiny!",
+            "₹ TAILS! One Rupee lucky charm!",
+            "₹ TAILS! The denomination decides!",
+            "₹ TAILS! Prosperity is yours!",
+            "₹ TAILS! The rupee symbol wins!",
+            "₹ TAILS! Wealth and fortune!",
+            "₹ TAILS! One Rupee magic!"
+        ];
+
+        function getRandomMessage(messages) {
+            return messages[Math.floor(Math.random() * messages.length)];
+        }
+
+        function flipCoin() {
+            if (isFlipping) return;
+
+            const coin = document.getElementById('coin');
+            const resultText = document.getElementById('resultText');
+            const flipButton = document.getElementById('flipButton');
+
+            isFlipping = true;
+            flipButton.disabled = true;
+            resultText.textContent = "Flipping...";
+            resultText.style.color = "white";
+
+            // Add flipping animation
+            coin.classList.add('flipping');
+
+            // Determine result
+            const isHeads = Math.random() < 0.5;
+            const spins = Math.floor(Math.random() * 4) + 5; // 5-8 spins
+            const finalRotation = isHeads ? (spins * 360) : (spins * 360 + 180);
+
+            // After animation completes
+            setTimeout(() => {
+                coin.classList.remove('flipping');
+                
+                // Set final position
+                coin.style.transform = `rotateY(${finalRotation}deg)`;
+
+                totalCount++;
+
+                if (isHeads) {
+                    headsCount++;
+                    resultText.textContent = getRandomMessage(headsMessages);
+                    resultText.style.color = "#ffd700";
+                } else {
+                    tailsCount++;
+                    resultText.textContent = getRandomMessage(tailsMessages);
+                    resultText.style.color = "#4ade80";
+                }
+
+                // Update stats with animation
+                document.getElementById('headsCount').textContent = headsCount;
+                document.getElementById('tailsCount').textContent = tailsCount;
+                document.getElementById('totalCount').textContent = totalCount;
+
+                isFlipping = false;
+                flipButton.disabled = false;
+            }, 2000);
+        }
+
+        // Keyboard support - press Space to flip
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && !isFlipping) {
+                e.preventDefault();
+                flipCoin();
+            }
+        });
+
+        // Touch support for mobile
+        let touchStartY = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            const touchEndY = e.changedTouches[0].clientY;
+            const swipeDistance = touchStartY - touchEndY;
+            
+            // Swipe up to flip
+            if (swipeDistance > 50 && !isFlipping) {
+                flipCoin();
+            }
+        });
+    </script>
+</body>
+</html>
